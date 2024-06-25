@@ -21,6 +21,9 @@ import "./../styles/layout/header.css"
 import {useTheme} from "@mui/material/styles";
 import LoginIcon from '@mui/icons-material/Login';
 
+import base64 from 'base-64';
+import {getMemberNickname} from "../service/memberApi.jsx";
+
 export default function Header() {
     const navigate = useNavigate();
     const token = useSelector((state) => state.MemberSlice.token);
@@ -43,6 +46,17 @@ export default function Header() {
             container: 'toastContainer',
         }
     })
+
+    // JWT 토큰에서 닉네임을 추출하는 함수
+    // const getNicknameFromToken = () => {
+    //     let payload = token.substring(token.indexOf('.')+1,token.lastIndexOf('.'));
+    //     let dec = base64.decode(payload)
+    //
+    //     let nickname = JSON.parse(dec).memberNickname;
+    //     console.log("dec="+nickname);
+    //     return nickname;
+    //     // navigate(`/member/${nickname}}`);
+    // };
 
     const ToastLogout = Swal.mixin({
         toast: true,
@@ -71,7 +85,6 @@ export default function Header() {
 
     // 읽지 않은 알림들 가져오기
     const fetchData = async () => {
-        console.log("token = ", token)
         try {
             const result = await getAllUnreadNotifications();
             if (result === "스프링 시큐리티 세션에서 가져올 정보가 존재하지 않음") {
@@ -97,13 +110,12 @@ export default function Header() {
                     authorization: token,
                 },
                 withCredentials: true,
-                timeout : 60 * 60 * 1000
+                timeout : 40000 // 40초
             });
 
             source.addEventListener('notification', (e) => {
                 //'notification' 이벤트가 오면 할 동작
                 setEventSource(source);
-                // console.log("event data", e.data);
                 if (e.data === "NOTIFICATION_CONNECT_SUCCESS") {
                     return;
                 }
@@ -144,13 +156,12 @@ export default function Header() {
         if (token === undefined || token === '' || !token) {
             return;
         }
-
         fetchData();
 
     }, []);
-    
+
     // 로그인 했으면 프로필로, 아니면 로그인
-    const handleProfileOrLogIn = () => {
+    const handleProfileOrLogIn = async () => {
         if (token === undefined || token === '' || !token) {
             Toast.fire({
                 icon: 'error',
@@ -159,7 +170,8 @@ export default function Header() {
             })
             navigate("/login");
         } else {
-            navigate("/pet"); // 나중에 회원 마이페이지 가도록
+            let nickname = await getMemberNickname();
+            navigate(`/member/${nickname}`); // 나중에 회원 마이페이지 가도록
         }
     }
 
@@ -168,7 +180,6 @@ export default function Header() {
         const result = await logout();
         dispatch(deleteToken());
         setNotification([]);
-        console.log(result);
         ToastLogout.fire({
             icon: 'success',
             title: '로그아웃 하였습니다',

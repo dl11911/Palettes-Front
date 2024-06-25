@@ -14,8 +14,7 @@ const VideoComp = () => {
                 </div>
 
                 <div className={VideoStyle.iframe}>
-                    <iframe className={VideoStyle.video} src="https://www.youtube.com/embed/6wE64jNyp1c?autoplay=1&loop=1&playlist=6wE64jNyp1c&controls=0" title="언니야 나랑놀아" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-                </div>
+                 </div>
             </div>
         </>
     );

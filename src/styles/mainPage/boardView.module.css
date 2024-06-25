@@ -126,3 +126,10 @@
     border-radius: 1rem;
     background-color: #1976d2;
 }
+
+.moreplzBtn{
+    background-color: transparent;
+    border: none; /* 필요 시 테두리 제거 */
+    color: inherit; /* 필요 시 텍스트 색상 상속 */
+    font-size: 1rem;
+}

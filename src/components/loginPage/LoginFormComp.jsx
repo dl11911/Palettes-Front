@@ -102,7 +102,7 @@ const LoginFormComp = () => {
 
             <div className={LoginStyle.links}>
                 <div className={LoginStyle.linksInline}>
-                    <Link to="forgot-password" className={LoginStyle.link}>비밀번호 찾기</Link>
+                    <Link to="/password" className={LoginStyle.link}>비밀번호 찾기</Link>
                     <span className={LoginStyle.separator}>|</span>
                     <Link to="/join" className={LoginStyle.link}>회원가입</Link>
                 </div>

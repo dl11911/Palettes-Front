@@ -123,9 +123,9 @@ const MainHotSpotView = () => {
                                 {/* <img src={carrot.carrotImage ? `https://kr.object.ncloudstorage.com/palettepets/member/Profile/${carrot.carrotImage}`
                                 : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}
                                 alt="User" /> */}
-                                <div className={BoardViewStyle.ModalCopontainer}>
-                                    <button>팔로우</button>
-                                    <button onClick={requestChat(hotSpots.userId)}>
+                                <div className={BoardViewStyle.ModalContainer}>
+                                    <button className={BoardViewStyle.chackBt}>팔로우</button>
+                                    <button className={BoardViewStyle.chackBt} onClick={requestChat(hotSpots.userId)}>
                                         <span style={{ color: '#ffffff' }}>1:1 대화</span>
                                     </button>
                                 </div>
@@ -136,7 +136,7 @@ const MainHotSpotView = () => {
             ))}
             <div className={BoardViewStyle.postHeader}>
             <Link to={{ pathname: '/hotspot/list' }} className={BoardViewStyle.moreplz}>
-                    <button className={BoardViewStyle.moreplz}>더보기</button>
+                    <button className={BoardViewStyle.moreplzBtn}>더보기</button>
             </Link>
             </div>
         </>

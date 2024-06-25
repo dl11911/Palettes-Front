@@ -5,29 +5,10 @@ import "slick-carousel/slick/slick-theme.css";
 import ImgStyle from '../../styles/img.module.css';
 import '../../styles/mainPage/slider.css'
 
-import donggeul from '../../image/donggeul.jpg';
-import ppaekkom from '../../image/ppaekkom.jpg';
-import snowdog from '../../image/snowdog.jpg';
-import sleepingdog from '../../image/sleepingdog.jpg';
-import jang2 from '../../image/jang2.jpg';
-import nyung1 from '../../image/nyung1.jpg';
-import nyung2 from '../../image/nyung2.jpg';
-import nyung3 from '../../image/nyung3.jpg';
-import nyung4 from '../../image/nyung4.jpg';
-import goguma from '../../image/goguma.jpg';
 
 //필요한 이미지
 const images = [
-    nyung1,
-    nyung2,
-    nyung3,
-    nyung4,
-    goguma,
-    donggeul,
-    ppaekkom,
-    snowdog,
-    sleepingdog,
-    jang2
+
 ];
 
 const NextArrow = ({ onClick }) => {

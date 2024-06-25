@@ -19,7 +19,7 @@ const BoardPageItem = (articles) => {
            createdAt
         );
         const nowTime = new Date();
-
+       
         const beforeTime = nowTime - dateTime;
         
 

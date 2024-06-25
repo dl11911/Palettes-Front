@@ -56,6 +56,24 @@ export const login = (dto) => {
         });
 }
 
+// naver login 로직
+// export const naverLogin = () => {
+//     return axios.get(`http://localhost:8080/oauth2/authorization/naver`, {
+//         headers: jsonHeaders
+//     })
+//         .then((response) => {
+//             if (response.headers.oauth === "true") {
+//                 const token = response.headers.authorization;
+//                 return token;
+//             } 
+//         })
+//         .catch((error) => {
+//             console.error(error);
+//             console.error(error.response.data);
+//             return error.response.data;
+//         });
+// }
+
 // logout post 요청
 export const logout = () => {
     return axios.post(`${API_SERVER_HOST}/logout`, {}, {
@@ -91,7 +109,6 @@ export const getAllUnreadNotifications = () => {
         .catch((error) => {
             console.error("error 발생 - [jwtAxios get 요청 /api/issues]");
             console.error(error);
-            console.error(error.response.data);
             return error.response.data;
         })
 }

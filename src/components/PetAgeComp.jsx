@@ -5,7 +5,6 @@ import { faCat, faDog } from '@fortawesome/free-solid-svg-icons';
 import PetStyle from '../styles/petAge.module.css'
 import ImgStyle from '../styles/img.module.css'
 
-import Age from '../image/age.jpg'
 import Swal from 'sweetalert2';
 
 const PetAgeComp = () => {

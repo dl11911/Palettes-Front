@@ -62,7 +62,6 @@ jwtAxios.interceptors.request.use(
         // redux persist 에 MemberSlice - token 값 가져오기
         let persistedState = getPersistedState();
         let token = JSON.parse(persistedState.MemberSlice).token;
-        // console.log(token);
         if (token) {
             config.headers["Authorization"] = token;
         }
@@ -80,7 +79,6 @@ jwtAxios.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
-        console.error("error = " + JSON.stringify(error));
         console.error("originalRequest = " + originalRequest);
         console.error("error data = " + error.response.data);
         if (error.response.data === "access token expired" && !originalRequest._retry) {
@@ -90,13 +88,8 @@ jwtAxios.interceptors.response.use(
                 const newAccessToken = response.headers.authorization;
                 // 저장된 상태 값 가져오기
                 let persistedState = getPersistedState();
-                // // 상태 값 초기화
-                // if (!persistedState) {
-                //     persistedState = {};
-                // }
                 // 특정 값 변경
                 persistedState.MemberSlice = "{\"token\":\"" + newAccessToken + "\"}";
-
                 // 변경된 상태 값 저장
                 setPersistedState(persistedState);
 

@@ -64,8 +64,6 @@ export default function Banner() {
 
     return (
         <>
-            {/* <TransactionCategoryComp/> */}
-
             <Slider {...settings}>
                 <div className='reviewSlider'>
                     <Container maxWidth="sm" sx={{mt: 4}}>

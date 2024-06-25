@@ -165,9 +165,19 @@ export const petDetailRequest = (petId) => {
         });
 }
 
-// 펫 이미지 리스트 GET 요청 -> 회원이 소유한 반려 동물 리스트
+// 펫 이미지 리스트 GET 요청 -> 회원이 소유한 반려 동물의 이미지 리스트
 export const petImgListRequest = (petId) => {
     return jwtAxios.get(`${API_SERVER_HOST}/pet/img/list/${petId}`)
+        .then(response => response.data)
+        .catch((error) => {
+            console.error(error);
+            return error.response.data;
+        });
+}
+
+// 펫 이미지 리스트 GET 요청 -> 회원이 소유한 반려 동물의 모든 이미지 리스트
+export const petImgListInMyPageRequest = () => {
+    return jwtAxios.get(`${API_SERVER_HOST}/pet/img/list`)
         .then(response => response.data)
         .catch((error) => {
             console.error(error);

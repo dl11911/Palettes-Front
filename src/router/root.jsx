@@ -18,6 +18,9 @@ const Loading = () => (
         <div>Loading...</div>
     </>
 );
+import myPageRouter from "./myPageRouter.jsx";
+
+
 const MainPage = lazy(() => import('./../pages/MainPage'));
 const LoginPage = lazy(() => import('./../pages/LoginPage'));
 const JoinPage = lazy(() => import('./../pages/JoinPage'));
@@ -30,6 +33,10 @@ const CarrotPage = lazy(() => import('../pages/carrot/CarrotPage.jsx'));
 const ArticlePage = lazy(() => import('../pages/article/ArticleTest.jsx'));
 const ChatPage = lazy(() => import('../pages/chat/ChatPage.jsx'));
 const Notification = lazy(() => import('../pages/notification/Notification.jsx'));
+
+const RootMyPage = lazy(()=> import('../pages/member/rootMyPage.jsx'));
+const PassowrdComp = lazy(()=> import('../components/member/passwordComp.jsx'));
+
 
 const root = createBrowserRouter([
     {
@@ -57,13 +64,13 @@ const root = createBrowserRouter([
     {
         path:"/article",
         element: <Suspense fallback={<Loading />}>
-           
+
             <AriticlePage/>
-            
-        </Suspense>, 
+
+        </Suspense>,
         children: articleRouter({Loading : Loading() })
     },
-    
+
     {
         path:"/healthCalculatorPage",
         element: <Suspense fallback={<Loading />}><HealthCalculatorPage/></Suspense>,
@@ -104,6 +111,11 @@ const root = createBrowserRouter([
         element: <Suspense fallback={<Loading/>}><IsLogin Component={<SseTest/>} /></Suspense>
     },
     {
+        path: "/member",
+        element: <Suspense fallback={<Loading/>}><RootMyPage/></Suspense>,
+        children: myPageRouter()
+    },
+    {
         path:"article",
         element: <Suspense fallback={<Loading />}><ArticlePage/></Suspense>,
 
@@ -115,6 +127,10 @@ const root = createBrowserRouter([
     {
         path:"/notification",
         element: <Suspense fallback={<Loading />}><IsLogin Component={<Notification/>} /></Suspense>
+    },
+    {
+        path: "/password",
+        element: <Suspense fallback={<Loading />}> <PassowrdComp/></Suspense>
     }
 ]);
 

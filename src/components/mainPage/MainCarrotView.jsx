@@ -100,10 +100,10 @@ const MainCarrotView = () => {
                             <div>
                                 {/* <p className={BoardViewStyle.postUserName}>{carrot.memberNickname}님</p> */}
                                 <p className={BoardViewStyle.postContent}>{carrot.carrotTitle}</p>
-                                <p className={BoardViewStyle.postTime}>                             
+                                <p className={BoardViewStyle.postTime}>
                             <span className='Item-icon'>
                                 <FavoriteBorderIcon sx={{fontSize:'16pt'}}/>
-                            </span> {carrot.carrotLike}                                 
+                            </span> {carrot.carrotLike}
                             <span className='Item-icon'>
                                 <VisibilityIcon sx={{verticalAlign: 'middle', mr: 0.5}}/> </span> {carrot.carrotView}</p>
                             </div>
@@ -120,9 +120,9 @@ const MainCarrotView = () => {
                                 <img src={carrot.carrotImage ? `https://kr.object.ncloudstorage.com/palettepets/member/Profile/${carrot.carrotImage}`
                                 : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}
                                 alt="User" />
-                                <div className={BoardViewStyle.ModalCopontainer}>
-                                    <button>팔로우</button>
-                                    <button onClick={requestChat(carrot.memberId)}>
+                                <div className={BoardViewStyle.ModalContainer}>
+                                    <button className={BoardViewStyle.chackBt}>팔로우</button>
+                                    <button className={BoardViewStyle.chackBt} onClick={requestChat(carrot.memberId)}>
                                         <span style={{ color: '#ffffff' }}>1:1 대화</span>
                                     </button>
                                 </div>
@@ -133,7 +133,7 @@ const MainCarrotView = () => {
             ))}
             <div className={BoardViewStyle.postHeader}>
             <Link to={{ pathname: '/carrot/list' }} className={BoardViewStyle.moreplz}>
-                    <button className={BoardViewStyle.moreplz}>더보기</button>
+                    <button className={BoardViewStyle.moreplzBtn}>더보기</button>
             </Link>
             </div>
         </>

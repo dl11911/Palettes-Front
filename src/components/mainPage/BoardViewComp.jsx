@@ -33,9 +33,9 @@ const BoardViewComp = () => {
             
             <hr></hr>
 
-            <div className={BoardViewStyle.postsSection}>
+            {/* <div className={BoardViewStyle.postsSection}>
                 <Banner/>
-            </div>
+            </div> */}
             <div className={BoardViewStyle.postsSection}>
                 <div className={BoardViewStyle.postsHeader}>
                     <span className={BoardViewStyle.postsTitle}>최신 명소</span>
