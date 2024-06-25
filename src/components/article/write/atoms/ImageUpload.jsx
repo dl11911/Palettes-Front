@@ -5,10 +5,12 @@ import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternate
 import './ImageWithCloseIcon.css';
 import ImageEdit from './ImageEdit';
 import { useParams } from "react-router-dom";
+import { width } from "@mui/system";
 
 //모달창 css
 const style = {
     position: 'absolute',
+    width:'380px',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',

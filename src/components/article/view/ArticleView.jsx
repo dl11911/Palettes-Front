@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CommentResisterForm from '../../comment/CommentResisterForm';
-import { getArticleView, increaseLikeCount,decreaseLikeCount } from '../../../service/ArticleService';
-import { getComment,getIsLike} from '../../../service/commentApi';
+import { getArticleView, increaseLikeCount, decreaseLikeCount } from '../../../service/ArticleService';
+import { getComment, getIsLike } from '../../../service/commentApi';
 import CommentItem from '../../comment/CommentItem';
 import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Menu, MenuItem, Modal, Typography, Box } from '@mui/material';
 import { FavoriteOutlined } from '@mui/icons-material';
@@ -12,6 +12,7 @@ import ArticleDelete from '../delete/ArticleDelete';
 import ArticleReport from './ArticleReport';
 import { useSelector } from 'react-redux';
 import ReactQuill from 'react-quill';
+import useToast from '../../../hooks/useToast';
 
 
 //모달창 css
@@ -28,14 +29,14 @@ const style = {
 
 const ArticleView = () => {
   const token = useSelector(state => state.MemberSlice).token;
-
+  const navigate = useNavigate();
   const { articleId } = useParams();
   const [articleDto, setArticleDto] = useState({});
   const [commentDto, setCommentDto] = useState([]);
-  const [isLike,setIsLike] = useState(false);
-  
+  const [isLike, setIsLike] = useState(false);
+  const toast = useToast();
   const { articleTags, content, countLoves, countReview, created_who, memberImage, title, images, createdAt } = articleDto
-
+  
   //댓글 등록시 리렌더링
   const [isArticleSubmitted, setIsArticleSubmitted] = useState(false);
 
@@ -47,29 +48,29 @@ const ArticleView = () => {
 
     if ((token === undefined) || (token === null) || (token === '')) {
 
-      alert("로그인 해 주세요")
+      toast("로그인 해 주세요")
 
     }
-    else if(isLike) {
-    
-    await decreaseLikeCount(articleId);
+    else if (isLike) {
 
-     alert("좋아요 취소되었습니다.")
-     
-     setIsArticleSubmitted(!isArticleSubmitted)
+      await decreaseLikeCount(articleId);
+
+      toast("좋아요가 취소되었습니다.")
+
+      setIsArticleSubmitted(!isArticleSubmitted)
     }
-    else{
+    else {
       const body = {
         articleId: articleId
       }
       const response = await increaseLikeCount(body);
 
-      alert(response);
+      toast(response)
       setIsArticleSubmitted(!isArticleSubmitted)
     }
 
   }
-  
+
 
   //articleId 글 정보, 이미지 정보, 댓글 정보 받아오기
   useEffect(() => {
@@ -81,13 +82,14 @@ const ArticleView = () => {
       const commentData = await getComment(articleId)
 
       const isLikeArticle = await getIsLike(articleId)
-      
+
+    
       setArticleDto(articleData);
       setCommentDto(commentData);
       setIsLike(isLikeArticle);
-
+     
       const dateTime = new Date(
-       createdAt
+        articleData.createdAt
       );
       const nowTime = new Date();
 
@@ -145,7 +147,7 @@ const ArticleView = () => {
     setOpenReport(false);
   }
 
-  const navigate = useNavigate();
+ 
 
   const handleBack = () => {
     navigate(-1,
@@ -179,12 +181,12 @@ const ArticleView = () => {
               </IconButton>
           }
           title={created_who}
-          subheader={createdAt}
+          subheader={formattedDateTime}
           sx={{ textAlign: 'left', margin: '10px 20px' }}
         />
 
         <CardContent >
-          <Typography variant="body2" color="text.secondary" fontSize="20pt" textAlign='left' sx={{ margin: '0 20px' }}>
+          <Typography variant="body2" color="text.secondary" fontSize="20pt" textAlign='left' sx={ {textAlign: 'center' }}>
             {title}
           </Typography>
         </CardContent>
@@ -199,14 +201,16 @@ const ArticleView = () => {
             dangerouslySetInnerHTML={{ __html: content }}
           /> */}
           <ReactQuill
-                        value={content}
-                        readOnly={true}
-                        theme="snow"
-                        modules={{toolbar: false}}
-                        style={{height: 'auto', backgroundColor: 'white', display: 'inline-block',
-                                minHeight: '100px', width: '96%', marginTop: '1%', whiteSpace: 'pre-line'}}
-                                
-                    />
+            value={content}
+            readOnly={true}
+            theme="snow"
+            modules={{ toolbar: false }}
+            style={{
+              height: 'auto', backgroundColor: 'white', display: 'inline-block',
+              minHeight: '300px', width: '96%', marginTop: '1%', marginLeft: '20px', whiteSpace: 'pre-line', textAlign: 'left'
+            }}
+
+          />
         </CardContent>
         {
           images && images.map((item, index) => <CardMedia
@@ -219,9 +223,9 @@ const ArticleView = () => {
             sx={{ width: '250px', margin: '20px auto', border: '1px solid black', borderRadius: '20px', padding: '20px' }}
           />)
         }
-
-        {formattedString}
-
+        <CardContent style={{textAlign:'left', marginLeft:'20px'}}>
+          {formattedString}
+        </CardContent>
         <CardActions disableSpacing sx={{ marginLeft: '20px', marginBottom: '20px' }}>
           <IconButton aria-label="add to favorites" onClick={increaseLike}>
             <FavoriteOutlined sx={{ color: isLike ? 'red' : 'black' }} />
@@ -288,7 +292,7 @@ const ArticleView = () => {
         </Box>
       </Modal>
 
-      <footer>
+      <footer style={{marginBottom:'50px'}}>
 
         <CommentResisterForm memberNickname={created_who} commentRef={0} articleId={articleId} parentId={0} setIsArticleSubmitted={setIsArticleSubmitted} isArticleSubmitted={isArticleSubmitted} />
 

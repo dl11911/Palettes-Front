@@ -1,28 +1,34 @@
 import React, { useState } from 'react';
 import { getReportMember, reportAddRequest } from '../../../service/reportApi';
+import useToast from '../../../hooks/useToast';
 
 const ArticleReport = (props) => {
-    const {articleId,reportedId,reportHandleClose} =props
-
+    const { articleId, reportedId, reportHandleClose } = props
+    const toast = useToast();
     const [content, setContent] = useState('');
     const [selected, setSelected] = useState("토픽 선택");
+    const [isNull, setIsNull] = useState(false);
     const onInput = (e) => {
         const { value } = e.target;
         setContent(value);
-        
+
     }
     const handleSelect = (e) => {
         setSelected(e.target.value);
-      };
+    };
 
-    const reportSubmit = async (e) =>{
+    const reportSubmit = async (e) => {
         e.preventDefault();
-        const memberId = await getReportMember();
-     
-        const result = await reportAddRequest(memberId,selected,reportedId,content,articleId);
-        alert(result)
-        reportHandleClose();
-        
+        setIsNull(false);
+        if (content === '' || content === null) {
+            setIsNull(true);
+        } else {
+            const memberId = await getReportMember();
+
+            const result = await reportAddRequest(memberId, selected, reportedId, content, articleId);
+            alert(result)
+            reportHandleClose();
+        }
     }
     return (
         <>
@@ -44,9 +50,16 @@ const ArticleReport = (props) => {
             <div>
                 작성자
                 <div>{reportedId}</div>
+                <br />
                 신고 내용
                 <div>
-                    <input type='text' value={content} onChange={onInput} />
+                    <textarea 
+                    value={content} 
+                    onChange={onInput} 
+                    rows={10} cols={25} 
+                    style={{ border: isNull ? '1px solid red' : '1px solid black' 
+                            ,resize: 'none' }} />
+                    <br />
                     <button onClick={reportSubmit} >신고 하기</button>
                     <button onClick={reportHandleClose}>취소</button>
                 </div>

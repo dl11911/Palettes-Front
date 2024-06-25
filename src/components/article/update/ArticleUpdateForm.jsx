@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 
-import { Button } from '@mui/material';
+import { Button,CircularProgress } from '@mui/material';
 import useForm from '../../../hooks/useForm';
 import SelectBoard from '../write/atoms/SelectBoard';
 import UserMakeTags from '../write/atoms/UserMakeTags';
@@ -10,7 +10,9 @@ import InputContent from '../write/atoms/InputContent';
 import ImageUpload from '../write/atoms/ImageUpload';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getUpdateArticle, resistUpdateArticle } from '../../../service/ArticleService';
-
+import useToast from '../../../hooks/useToast.jsx';
+import styled from 'styled-components';
+import { Box } from '@mui/system';
 
 
 const initialForm = {
@@ -23,6 +25,18 @@ const initialForm = {
 
 }
 
+const Overlay = styled.div`
+  display: ${({ loading }) => (loading === 'true' ? 'flex' : 'none')};
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+`;
 
 const imageAsFile = (url) => {
     const fullUrl = `https://kr.object.ncloudstorage.com/palettepets/article/img/${url}`
@@ -41,7 +55,8 @@ const ArticleUpdateForm = () => {
 
     const [imgFiles, setImgFiles] = useState([]);
     const [previewList, setPreviewList] = useState([]);
-
+    const [loading, setLoading] = useState(false);
+    const toast = useToast();
 
     const navigate = useNavigate();
 
@@ -75,44 +90,59 @@ const ArticleUpdateForm = () => {
     }, [resetSwitch]);
 
     const validate = (form) => {
-        
         const { articleHead, title, content } = form
 
         if (articleHead === '' || articleHead === null) {
-            return false
+            toast("머릿말을 선택해주세요.")
+            return false;
         } else if (title === '' || title === null) {
-            return false
+            toast("제목을 입력해주세요")
+            return false;
         } else if (content === '' || content === null) {
-            return false
+            toast("내용을 입력해주세요")
+            return false;
+        } else {
+            return true;
         }
-        
     }
 
 
     const onSubmit = async () => {
 
-        validate(form);
+        if (validate(form)) {
 
-        const formData = new FormData();
-        Object.values(imgFiles).map((item, index) => {
-            formData.append('files', item);
-        });
-        const blob = new Blob([JSON.stringify(form)], { type: "application/json" });
-        formData.append('dto', blob);
-        await resistUpdateArticle(formData, articleId);
+            const formData = new FormData();
+            Object.values(imgFiles).map((item, index) => {
+                formData.append('files', item);
+            });
+            const blob = new Blob([JSON.stringify(form)], { type: "application/json" });
+            formData.append('dto', blob);
 
+            setLoading(true);
 
-        navigate(-1);
+            await resistUpdateArticle(formData, articleId);
 
+            setLoading(false);
+
+            toast("정상적으로 수정되었습니다.")
+
+            navigate(-1);
+        }
     }
 
     return (
 
         <div>
+            <Overlay loading={loading.toString()}>
+
+                <Box sx={{ display: loading ? 'flex' : 'none' }}>
+                    <CircularProgress sx={{ fontSize: '30pt' }} />
+                </Box>
+            </Overlay>
 
             <SelectBoard boardName={form.boardName} onChange={onChange} />
             <UserMakeTags articleTags={form.articleTags} onInput={onInput} />
-            <InputTitle boardName={form.boardName} articleHead={form.articleHead} title={form.title} onChange={onChange} onInput={onInput}/>
+            <InputTitle boardName={form.boardName} articleHead={form.articleHead} title={form.title} onChange={onChange} onInput={onInput} />
             <InputContent content={form.content} onChange={onChange} />
             <ImageUpload previewList={previewList} setPreviewList={setPreviewList} imgFiles={imgFiles} setImgFiles={setImgFiles} />
 

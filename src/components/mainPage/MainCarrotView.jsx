@@ -88,13 +88,15 @@ const MainCarrotView = () => {
         p: 4,
     };
 
+
+
     return (
         <>
             {carrots && carrots.map((carrot) => (
                 <div key={carrot.carrotId} className={BoardViewStyle.postsList}>
                     <div className={BoardViewStyle.post}>
                         <div className={BoardViewStyle.postHeader}>
-                            <img src={carrot.carrotImage ? `https://kr.object.ncloudstorage.com/palettepets/member/Profile/${carrot.carrotImage}`
+                            <img src={carrot.carrotImage ? `https://kr.object.ncloudstorage.com/palettepets/carrot/img/${carrot.carrotImage}`
                                 : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}
                             alt="User" className={BoardViewStyle.postUserImage} onClick={() => openModal(carrot.carrotId)} />
                             <div>
@@ -116,16 +118,16 @@ const MainCarrotView = () => {
                             aria-labelledby="modal-modal-title"
                             aria-describedby="modal-modal-description">
                             <Box sx={style}>
-                                <p className={BoardViewStyle.postUserName}>{carrot.memberNickname}</p>/
-                                <img src={carrot.carrotImage ? `https://kr.object.ncloudstorage.com/palettepets/member/Profile/${carrot.carrotImage}`
+                                <img src={carrot.carrotImage ? `https://kr.object.ncloudstorage.com/palettepets/carrot/img/${carrot.carrotImage}`
                                 : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}
-                                alt="User" />
-                                <div className={BoardViewStyle.ModalContainer}>
+                                alt="User" 
+                                style={{width: '100%', height: '40%'}}/>
+                                {/* <div className={BoardViewStyle.ModalContainer}>
                                     <button className={BoardViewStyle.chackBt}>팔로우</button>
                                     <button className={BoardViewStyle.chackBt} onClick={requestChat(carrot.memberId)}>
                                         <span style={{ color: '#ffffff' }}>1:1 대화</span>
                                     </button>
-                                </div>
+                                </div> */}
                             </Box>
                         </Modal>
                     </div>

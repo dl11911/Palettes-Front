@@ -76,7 +76,7 @@ export default function CommentItem({ item, articleId, setIsArticleSubmitted, is
                     }
                     action={
                         <IconButton id="basic-button" aria-label="settings" onClick={handleClick} >
-                            <MoreVertIcon />
+                            {/* <MoreVertIcon /> */}
                         </IconButton>
                     }
                     title={memberNickname}
@@ -112,7 +112,7 @@ export default function CommentItem({ item, articleId, setIsArticleSubmitted, is
 
                     }}
                 >
-                    <MenuItem>수정하기</MenuItem>
+                  
                     <MenuItem>삭제하기</MenuItem>
 
                 </Menu> */}

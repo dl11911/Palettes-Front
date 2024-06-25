@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Box, Modal } from '@mui/material';
@@ -7,7 +7,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from "@mui/icons-material/Visibility.js";
-
+import "../../styles/mainPage/MainHotSpotView.css";
 import BoardViewStyle from '../../styles/mainPage/boardView.module.css'
 import { useSelector } from 'react-redux';
 import connectChat from '../../utils/connectChat';
@@ -90,18 +90,20 @@ const MainHotSpotView = () => {
 
     return (
         <>
-            {hotSpots && hotSpots.map((hotSpot) => (
+            {hotSpots ? hotSpots.map((hotSpot) => (
                 <div key={hotSpot.hotSpotId} className={BoardViewStyle.postsList}>
                     <div className={BoardViewStyle.post}>
                         <div className={BoardViewStyle.postHeader}>
-                            <img src = {`https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}
+                            <img src = {"https://kr.object.ncloudstorage.com/palettepets/hotspot/" + hotSpot.imgUrl}
                             /* <img src={carrot.carrotImage ? `https://kr.object.ncloudstorage.com/palettepets/member/Profile/${carrot.carrotImage}`
                                 : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`} */
                             alt="User" className={BoardViewStyle.postUserImage} onClick={() => openModal(hotSpot.hotSpotId)} />
                             <div>
+                                <Link to={`/hotspot/details/${hotSpot.hotSpotId}`} className={"detailLink"}>
                                 {/* <p className={BoardViewStyle.postUserName}>{carrot.memberNickname}님</p> */}
                                 <p className={BoardViewStyle.postContent}>{hotSpot.placeName}</p>
                                 <p className={BoardViewStyle.postTime}>{hotSpot.uploadAt}</p>
+                                </Link>
                             {/* <span className='Item-icon'>
                                 <FavoriteBorderIcon sx={{fontSize:'16pt'}}/>
                             </span> {carrot.carrotLike}                                  */}
@@ -118,22 +120,24 @@ const MainHotSpotView = () => {
                             aria-describedby="modal-modal-description">
                             <Box sx={style}>
                                 {/* <p className={BoardViewStyle.postUserName}>{carrot.memberNickname}</p> */}
-                                <img src = {`https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}
-                                alt="User"/>
+                                {/*<img src = {`https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}*/}
+                                {/*alt="User"/>*/}
+                                <img src={"https://kr.object.ncloudstorage.com/palettepets/hotspot/" + hotSpot.imgUrl} // 디테일 이미지 URL 사용
+                                     alt="HotSpot" />
                                 {/* <img src={carrot.carrotImage ? `https://kr.object.ncloudstorage.com/palettepets/member/Profile/${carrot.carrotImage}`
                                 : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}
                                 alt="User" /> */}
-                                <div className={BoardViewStyle.ModalContainer}>
+                                {/* <div className={BoardViewStyle.ModalContainer}>
                                     <button className={BoardViewStyle.chackBt}>팔로우</button>
                                     <button className={BoardViewStyle.chackBt} onClick={requestChat(hotSpots.userId)}>
                                         <span style={{ color: '#ffffff' }}>1:1 대화</span>
                                     </button>
-                                </div>
+                                </div> */}
                             </Box>
                         </Modal>
                     </div>
                 </div>
-            ))}
+            )):null}
             <div className={BoardViewStyle.postHeader}>
             <Link to={{ pathname: '/hotspot/list' }} className={BoardViewStyle.moreplz}>
                     <button className={BoardViewStyle.moreplzBtn}>더보기</button>

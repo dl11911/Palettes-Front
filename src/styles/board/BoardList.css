@@ -81,7 +81,9 @@ hr {
 }
 
 .Item-header{
-    padding: 2rem 0 0 0 ;
+    padding: 1rem 0 0 0 ;
+    justify-content: center;
+    
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 헤더에 그림자 추가 */
 }
@@ -100,7 +102,12 @@ hr {
     text-align: center; /* 가운데 정렬 */
 }
 
-
+.boardSelectBtn{
+    margin: 0px 5px;
+}
+.selected{
+    color:black
+}
 
 
 

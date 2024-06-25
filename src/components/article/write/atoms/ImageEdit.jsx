@@ -1,5 +1,6 @@
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useMediaQuery } from '@mui/system';
 import React, { useRef } from 'react';
 
 
@@ -7,7 +8,7 @@ const ImageEdit = ({previewList,setPreviewList,imgFiles,setImgFiles,deleteChoice
 
   const dragItem = useRef();
   const dragOverItem = useRef();
-
+  const isSmallScreen = useMediaQuery('(max-width:500px)');
   const dragStart = idx => {
     dragItem.current = idx;
 
@@ -17,7 +18,17 @@ const ImageEdit = ({previewList,setPreviewList,imgFiles,setImgFiles,deleteChoice
     dragOverItem.current = idx;
 
   };
+  const onTouchStart = (index) => {
+    dragStart(index);
+  };
 
+  const onTouchMove = (index) => {
+    dragEnter(index);
+  };
+
+  const onTouchEnd = () => {
+    drop();
+  };
   const drop = () => {
     const copyListItems = [...previewList];
     const copyFiles = Array.from(imgFiles);
@@ -54,14 +65,15 @@ const ImageEdit = ({previewList,setPreviewList,imgFiles,setImgFiles,deleteChoice
             onDragEnter={() => dragEnter(index)}
             onDragOver={e => e.preventDefault()}
             onDragEnd={drop}
-            // onTouchStart={()=> dragStart(index)}
-            // onTouchCancel={()=>dragEnter(index)}
+            onTouchStart={() => onTouchStart(index)}
+            onTouchMove={() => onTouchMove(index)}
+            onTouchEnd={onTouchEnd}
             key={index}
             draggable
             className='image-container editImage-container'
           >
 
-            <img src={item} alt={index} width='180' height='180' />
+            <img src={item} alt={index} width={isSmallScreen ? '123':'123'} height={isSmallScreen ? '123':'123'} style={{display:'inline-block'}}/>
             <FontAwesomeIcon icon={faTimes} className="close-icon" onClick={() => deleteChoiceImage(index)} />
 
           </div>

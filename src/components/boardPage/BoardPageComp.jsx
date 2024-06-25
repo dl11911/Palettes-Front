@@ -6,9 +6,13 @@ import ArticleService from '../../service/ArticleService.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BoardPageItem from './BoardPageItem.jsx';
 import { Stack, useMediaQuery } from '@mui/system';
-import { Chip, Fab } from '@mui/material';
+import { Chip, Fab, Button, IconButton, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-
+import PetsIcon from '@mui/icons-material/Pets';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCat, faDog } from '@fortawesome/free-solid-svg-icons';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 function BoardPageComp() {
 
@@ -18,7 +22,7 @@ function BoardPageComp() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isSmallScreen = useMediaQuery('(max-width:500px)');
-  
+
 
   //URL에서 sort 값 가져오기
   const location = useLocation();
@@ -34,7 +38,7 @@ function BoardPageComp() {
   const [where, setWhere] = useState(""); //검색
   const [ref, inView] = useInView();
 
-  
+
   useEffect(() => {
     console.log("board page search changed = " + search);
     setWhere(search);
@@ -83,11 +87,7 @@ function BoardPageComp() {
     }
   }, [inView]);
 
-  const addBoardName = (event) => {
-    event.preventDefault();
-    const { value } = event.target
-    console.log(boardName)
-    console.log(value)
+  const addBoardName = (value) => {
 
     if (boardName === value) {
       setBoardName('');
@@ -115,26 +115,49 @@ function BoardPageComp() {
     setSearch([])
     setTagList([])
   }
-
-  const FreeBoardClassName = `${boardName === "FREEBOARD" ? "round-button active" : "round-button"} ${isSmallScreen ? "small-round-button" : ""}`;
-  const INFORMATIONClassName = `${boardName === "INFORMATION" ? "round-button active" : "round-button"} ${isSmallScreen ? "small-round-button" : ""}`;
-  const SHOWClassName = `${boardName === "SHOW" ? "round-button active" : "round-button"} ${isSmallScreen ? "small-round-button" : ""}`;
-  const QNAClassName = `${boardName === "QNA" ? "round-button active" : "round-button"} ${isSmallScreen ? "small-round-button" : ""}`;
+  const WHOLE = `${boardName === "" ? "boardSelectBtn selected" : "boardSelectBtn"} `;
+  const FreeBoardClassName = `${boardName === "FREEBOARD" ? "boardSelectBtn selected" : "boardSelectBtn"} `;
+  const INFORMATIONClassName = `${boardName === "INFORMATION" ? "boardSelectBtn selected" : "boardSelectBtn"} `;
+  const SHOWClassName = `${boardName === "SHOW" ? "boardSelectBtn selected" : "boardSelectBtn"}`;
+  const QNAClassName = `${boardName === "QNA" ? "boardSelectBtn selected" : "boardSelectBtn"} `;
 
   return (
     <>
       <div className='Item-header'>
 
         <div className='boardSelectBtn'>
-          <button className={`round-button ${isSmallScreen ? "small-round-button" : ""}`} onClick={onReset}>전체</button>
-          <button className={FreeBoardClassName} value="FREEBOARD" onClick={addBoardName}>자유</button>
-          <button className={INFORMATIONClassName} value="INFORMATION" onClick={addBoardName}>정보</button>
-          <button className={SHOWClassName} value="SHOW" onClick={addBoardName}>자랑</button>
-          <button className={QNAClassName} value="QNA" onClick={addBoardName}>질문</button>
+          <IconButton id="basic-button" aria-label="settings" onClick={onReset} className={WHOLE}>
+            <span>
+              <HomeOutlinedIcon sx={{ fontSize: '30pt' }} />
+              <Typography variant="body2">전체</Typography>
+            </span>
+          </IconButton>
+          <IconButton id="basic-button" aria-label="settings" onClick={() => addBoardName('FREEBOARD')} className={FreeBoardClassName} >
+            <span>
+              <PetsIcon sx={{ fontSize: '27pt' }} />
+              <Typography variant="body2">자유</Typography>
+            </span>
+          </IconButton>
+          <IconButton id="basic-button" aria-label="settings" onClick={() => addBoardName('INFORMATION')} className={INFORMATIONClassName} >
+            <span>
+              <FontAwesomeIcon icon={faCat} style={{ padding: 3, fontSize: '25pt' }} />
+              <Typography variant="body2" >정보</Typography>
+            </span>
+          </IconButton>
+          <IconButton id="basic-button" aria-label="settings" onClick={() => addBoardName('SHOW')} className={SHOWClassName} >
+            <span>
+              <FontAwesomeIcon icon={faDog} style={{ padding: 3, fontSize: '25pt' }} />
+              <Typography variant="body2" sx={{}}>자랑</Typography>
+            </span>
+          </IconButton>
+
+          <IconButton id="basic-button" aria-label="settings" onClick={() => addBoardName('QNA')} className={QNAClassName}>
+            <span>
+              <ContactSupportIcon sx={{fontSize: '26pt' }} />
+              <Typography variant="body2" sx={{}}>질문</Typography>
+            </span>
+          </IconButton>
         </div>
-
-
-
 
         <div className={`tagList ${isExpanded ? 'expanded' : ''}`}>
 
@@ -151,11 +174,11 @@ function BoardPageComp() {
           }
         </div>
         {
-        tagList.length > 10 && (
-          <button onClick={() => setIsExpanded(!isExpanded)} className='toggleButton'>
-            {isExpanded ? '접기' : '펼치기'}
-          </button>
-        )}
+          tagList.length > 10 && (
+            <button onClick={() => setIsExpanded(!isExpanded)} className='toggleButton'>
+              {isExpanded ? '접기' : '펼치기'}
+            </button>
+          )}
         <div className='selectedTagList'>
 
           {
@@ -171,7 +194,8 @@ function BoardPageComp() {
 
         </div>
       </div>
-      <div style={{ textAlign: 'right' ,margin:'15px 0' }}><button onClick={() => setDir(true)}>최신순</button> / <button onClick={() => setDir(false)}>오래된순</button></div>
+      <div style={{ textAlign: 'right', margin: '15px 0' }}>
+        <Button onClick={() => setDir(true)}>최신순</Button> / <Button onClick={() => setDir(false)}>오래된순</Button></div>
       <div className="container mx-auto px-4 py-4">
 
         {
@@ -195,3 +219,9 @@ function BoardPageComp() {
 };
 
 export default BoardPageComp;
+
+
+  {/* <button className={FreeBoardClassName} value="FREEBOARD" onClick={addBoardName}>자유</button> */ }
+  {/* <button className={INFORMATIONClassName} value="INFORMATION" onClick={addBoardName}>정보</button> */ }
+  {/* <button className={SHOWClassName} value="SHOW" onClick={addBoardName}>자랑</button> */ }
+  {/* <button className={QNAClassName} value="QNA" onClick={addBoardName}>질문</button> */ }
