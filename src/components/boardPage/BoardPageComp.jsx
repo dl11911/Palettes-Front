@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import "../../styles/board/BoardList.css"
 import ArticleService from '../../service/ArticleService.jsx';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import BoardPageItem from './BoardPageItem.jsx';
 import { Stack, useMediaQuery } from '@mui/system';
 import { Chip, Fab, Button, IconButton, Typography } from '@mui/material';
@@ -153,7 +153,7 @@ function BoardPageComp() {
 
           <IconButton id="basic-button" aria-label="settings" onClick={() => addBoardName('QNA')} className={QNAClassName}>
             <span>
-              <ContactSupportIcon sx={{fontSize: '26pt' }} />
+              <ContactSupportIcon sx={{ fontSize: '26pt' }} />
               <Typography variant="body2" sx={{}}>질문</Typography>
             </span>
           </IconButton>
@@ -205,15 +205,13 @@ function BoardPageComp() {
         }
         <div ref={ref}>끝</div>
       </div>
-      <Fab color="secondary" aria-label="edit" onClick={() => navigate('/article/write')}
-        sx={{
-          position: 'fixed',
-          bottom: 75,
-          right: isSmallScreen ? 30 : 480
-
-        }}>
-        <EditIcon sx={{ fontSize: '30pt' }} />
-      </Fab>
+      
+        <Link to="/article/write">
+          <button className="post-button">
+            <EditIcon sx={{fontSize:'25pt'}}/>
+          </button>
+        </Link>
+      
     </>
   );
 };
@@ -221,7 +219,7 @@ function BoardPageComp() {
 export default BoardPageComp;
 
 
-  {/* <button className={FreeBoardClassName} value="FREEBOARD" onClick={addBoardName}>자유</button> */ }
-  {/* <button className={INFORMATIONClassName} value="INFORMATION" onClick={addBoardName}>정보</button> */ }
-  {/* <button className={SHOWClassName} value="SHOW" onClick={addBoardName}>자랑</button> */ }
-  {/* <button className={QNAClassName} value="QNA" onClick={addBoardName}>질문</button> */ }
+{/* <button className={FreeBoardClassName} value="FREEBOARD" onClick={addBoardName}>자유</button> */ }
+{/* <button className={INFORMATIONClassName} value="INFORMATION" onClick={addBoardName}>정보</button> */ }
+{/* <button className={SHOWClassName} value="SHOW" onClick={addBoardName}>자랑</button> */ }
+{/* <button className={QNAClassName} value="QNA" onClick={addBoardName}>질문</button> */ }

@@ -51,7 +51,7 @@ export default function Header() {
     // const getNicknameFromToken = () => {
     //     let payload = token.substring(token.indexOf('.')+1,token.lastIndexOf('.'));
     //     let dec = base64.decode(payload)
-    //
+    
     //     let nickname = JSON.parse(dec).memberNickname;
     //     console.log("dec="+nickname);
     //     return nickname;
@@ -99,54 +99,54 @@ export default function Header() {
     // 실시간 알림 SSE 요청
     useEffect(() => {
 
-        if (token === undefined || token === '' || !token) {
-            return;
-        }
+        // if (token === undefined || token === '' || !token) {
+        //     return;
+        // }
 
-        //SSE 연결 로직
-        const connectSSE = () => {
-            const source = new EventSourcePolyfill(`${url}/connect`, {
-                headers: {
-                    authorization: token,
-                },
-                withCredentials: true,
-                timeout : 40000 // 40초
-            });
+        // //SSE 연결 로직
+        // const connectSSE = () => {
+        //     const source = new EventSourcePolyfill(`${url}/connect`, {
+        //         headers: {
+        //             authorization: token,
+        //         },
+        //         withCredentials: true,
+        //         timeout : 40000 // 40초
+        //     });
 
-            source.addEventListener('notification', (e) => {
-                //'notification' 이벤트가 오면 할 동작
-                setEventSource(source);
-                if (e.data === "NOTIFICATION_CONNECT_SUCCESS") {
-                    return;
-                }
-                Toast.fire({
-                    icon: 'success',
-                    title: e.data,
-                    width: 450
-                })
-                fetchData();
-            });
+        //     source.addEventListener('notification', (e) => {
+        //         //'notification' 이벤트가 오면 할 동작
+        //         setEventSource(source);
+        //         if (e.data === "NOTIFICATION_CONNECT_SUCCESS") {
+        //             return;
+        //         }
+        //         Toast.fire({
+        //             icon: 'success',
+        //             title: e.data,
+        //             width: 450
+        //         })
+        //         fetchData();
+        //     });
 
-            return () => {
-                source.close();
-            };
-        };
+        //     return () => {
+        //         source.close();
+        //     };
+        // };
 
-        connectSSE();
+        // connectSSE();
 
-        const intervalId = setInterval(() => {
-            if (eventSource && eventSource.readyState === EventSource.CLOSED) {
-                console.log('SSE connection closed, reconnecting...');
-                connectSSE();
-            }
-        }, 5000);
+        // const intervalId = setInterval(() => {
+        //     if (eventSource && eventSource.readyState === EventSource.CLOSED) {
+        //         console.log('SSE connection closed, reconnecting...');
+        //         connectSSE();
+        //     }
+        // }, 5000);
 
-        return () => {
-            clearInterval(intervalId);
-            if (eventSource) {
-                eventSource.close();
-            }
-        };
+        // return () => {
+        //     clearInterval(intervalId);
+        //     if (eventSource) {
+        //         eventSource.close();
+        //     }
+        // };
 
     }, []);
 

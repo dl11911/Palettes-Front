@@ -156,3 +156,40 @@ hr {
     margin-left: 15px;
     font-size: 11pt;
 }
+
+@media only screen and (max-width: 600px) {
+    .post-button {
+        z-index: 99;
+        left: 81%;
+        bottom: 8%;
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        background-color: lightseagreen;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .post-button {
+        left: 73%;
+        position: fixed;
+        bottom: 12%;
+        width: 65px;
+        height: 65px;
+        background-color: lightseagreen;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+}

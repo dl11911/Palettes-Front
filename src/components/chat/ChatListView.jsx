@@ -30,8 +30,6 @@ const ChatListView = () => {
         }
     }
     const requestChat = (e) =>() => {
-        alert("글쓴이 아이디 : " + e)
-        console.log("click")
         if (token === '') {
             console.log("token is on")
             alarm();
@@ -44,16 +42,17 @@ const ChatListView = () => {
         <>
             {chatList.map((chat) => (
                 <div className="Item-container" onClick={requestChat(chat.userId)}>
-                    <div className="Item-content">
+                    <div className="Item-content chatting">
                         <div className="Item-text">
-                            <div className="Item-title">{chat.roomId}</div>
                                 <div className="Item-info">
-                                    {chat.nickname}
+                                    <h1>{chat.nickname}</h1>
                                     <ChatBubbleOutlineIcon sx={{fontSize:'16pt'}}/>
                                 </div>
-                            <div>안읽은 메세지 : {chat.count}</div>
+                            <div
+                            >안읽은 메세지 : {chat.count}</div>
                         </div>
                     </div>
+                    <hr/>
                 </div>
             ))}
         </>

@@ -12,6 +12,7 @@ import image from '../../image/icon-photo.png';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import connectChat from '../../utils/connectChat';
 
 
 const CarrotDetail = () => {
@@ -49,12 +50,9 @@ const CarrotDetail = () => {
 
   //상세 피이지 & 이미지
   const fetchCarrot = (id) => {
-    console.log("id = "+id)
     carrotService.getCarrotDetails(id).then((res) => {
-      console.log("데이터 === "+res.data.imgList);
       setCarrot(res.data);
       setImgList(res.data.imgList)
-      console.log("dd = " + imgList);
       //setPage(page => page + 1);
       }).catch((err) => { 
         console.log(err)
@@ -64,7 +62,6 @@ const CarrotDetail = () => {
     //거래 상태 변경
   const handleChange = async (event) => {
     const newValue = parseInt(event.target.value, 10);
-    console.log("바뀐 상태ㅋㅋ"+newValue);
     if (newValue !== state) {
       if (window.confirm("상태를 바꾸시겠습니까?")) {
         try {
@@ -144,14 +141,14 @@ const PrevArrow = ({ onClick }) => {
       <Slider {...settings} className="image-slider">
             {imgList.map((img, index) => (
               <div key={index} className="imageTool">
-                <img className="image" src={ img ? `https://kr.object.ncloudstorage.com/palettepets/carrot/img/${img}` : image} alt={`Image ${index}`} style={{height:"500px", width:"500px"}} />
+                <img className="image" src={ img ? `https://kr.object.ncloudstorage.com/palettepets/carrot/img/${img}` : image} alt={`Image ${index}`} style={{height:"450px", width:"400px"}} />
               </div>
             ))}
           </Slider>
         </div>
         <div className="content-container">
           <div className="seller-info">
-            <img src="https://d1unjqcospf8gs.cloudfront.net/assets/users/default_profile_80-7e50c459a71e0e88c474406a45bbbdce8a3bf2ed4f2efcae59a064e39ea9ff30.png" alt="Seller" />
+            <img src={`https://kr.object.ncloudstorage.com/palettepets/member/Profile/${carrot.memberImg}`} alt="Seller" />
             <span className="seller-name">{carrot.memberNickname}</span>
           </div>
         <div>
@@ -169,7 +166,7 @@ const PrevArrow = ({ onClick }) => {
             <div className="title">{carrot.carrotTitle}</div>
           </div>
           <div className="tags-container">
-            <span>#{carrot.carrotTag}</span> •
+            <span>#{carrot.carrotTag}</span>
             <span style={{color: "#998e8e"}}>{getTimeDifference(carrot.carrotCreatedAt)}</span>
           </div>
           <div className="description">
@@ -190,7 +187,7 @@ const PrevArrow = ({ onClick }) => {
               {carrot.carrotPrice}원
               </div>
             </div>
-            {carrot.carrotState === 2 ? null : (<button className="chat-button">채팅하기</button>) }
+            {carrot.carrotState === 2 ? null : (<button className="chat-button" onClick={() => connectChat(carrot.memberId)}>채팅하기</button>) }
           </div>
         </div>
       </div>

@@ -75,9 +75,9 @@ export const decreaseLikeCount = (articleId) =>{
 
 class ArticleService {
     getArticleList(page, sort, dir, search, boardName) {
-        //return axios.get(ARTICLE_API_BASE_URL);
-        return axios.get(`${ARTICLE_API_BASE_URL}?page=${page}&sort=${sort}&dir=${dir}&where=${search}&boardName=${boardName}`)
-        //return axios.get(`${ARTICLE_API_BASE_URL2}?articleTags=${where}`)
+    
+    return axios.get(`${ARTICLE_API_BASE_URL}?page=${page}&sort=${sort}&dir=${dir}&where=${search}&boardName=${boardName}`);
+    
     }
 }
 

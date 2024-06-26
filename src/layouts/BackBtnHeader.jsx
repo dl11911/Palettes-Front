@@ -87,55 +87,55 @@ export default function BackBtnHeader() {
     // 실시간 알림 SSE 요청
     useEffect(() => {
 
-        if (token === undefined || token === '' || !token) {
-            return;
-        }
+        // if (token === undefined || token === '' || !token) {
+        //     return;
+        // }
 
-        //SSE 연결 로직
-        const connectSSE = () => {
-            const source = new EventSourcePolyfill(`${url}/connect`, {
-                headers: {
-                    authorization: token,
-                },
-                withCredentials: true,
-                timeout : 60 * 60 * 1000
-            });
+        // //SSE 연결 로직
+        // const connectSSE = () => {
+        //     const source = new EventSourcePolyfill(`${url}/connect`, {
+        //         headers: {
+        //             authorization: token,
+        //         },
+        //         withCredentials: true,
+        //         timeout : 60 * 60 * 1000
+        //     });
 
-            source.addEventListener('notification', (e) => {
-                //'notification' 이벤트가 오면 할 동작
-                setEventSource(source);
-                // console.log("event data", e.data);
-                if (e.data === "NOTIFICATION_CONNECT_SUCCESS") {
-                    return;
-                }
-                Toast.fire({
-                    icon: 'success',
-                    title: e.data,
-                    width: 450
-                })
-                fetchData();
-            });
+        //     source.addEventListener('notification', (e) => {
+        //         //'notification' 이벤트가 오면 할 동작
+        //         setEventSource(source);
+        //         // console.log("event data", e.data);
+        //         if (e.data === "NOTIFICATION_CONNECT_SUCCESS") {
+        //             return;
+        //         }
+        //         Toast.fire({
+        //             icon: 'success',
+        //             title: e.data,
+        //             width: 450
+        //         })
+        //         fetchData();
+        //     });
 
-            return () => {
-                source.close();
-            };
-        };
+        //     return () => {
+        //         source.close();
+        //     };
+        // };
 
-        connectSSE();
+        // connectSSE();
 
-        const intervalId = setInterval(() => {
-            if (eventSource && eventSource.readyState === EventSource.CLOSED) {
-                console.log('SSE connection closed, reconnecting...');
-                connectSSE();
-            }
-        }, 5000);
+        // const intervalId = setInterval(() => {
+        //     if (eventSource && eventSource.readyState === EventSource.CLOSED) {
+        //         console.log('SSE connection closed, reconnecting...');
+        //         connectSSE();
+        //     }
+        // }, 5000);
 
-        return () => {
-            clearInterval(intervalId);
-            if (eventSource) {
-                eventSource.close();
-            }
-        };
+        // return () => {
+        //     clearInterval(intervalId);
+        //     if (eventSource) {
+        //         eventSource.close();
+        //     }
+        // };
 
     }, []);
 

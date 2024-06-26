@@ -19,7 +19,7 @@ const BoardView = () => {
 
 
     const [articles, setArticles] = useState([]);
-
+    
     const openModal = (articleId) => {
         setModal((prevState) => ({
             ...prevState,
@@ -61,7 +61,7 @@ const BoardView = () => {
         const { signal } = controller;
 
         const result = await axios.get(`${url}/popular`, { signal })
-        .then(res => res.data 
+        .then(res => res.data[0]
         )
         .catch(err => {
             console.error(err);
@@ -92,12 +92,16 @@ const BoardView = () => {
         p: 4,
     };
 
+    const connectArticle = (articleId) => {
+        window.location.href = `/article/view/${articleId}`;
+    }
+
     return (
         <>
             {articles && articles.map((article) => (
                 <div key={article.articleId} className={BoardViewStyle.postsList}>
                     <div className={BoardViewStyle.post}>
-                        <div className={BoardViewStyle.postHeader}>
+                        <div className={BoardViewStyle.postHeader} onClick={()=>connectArticle(article.articleId)}>
                             <img src={article.memberImg ? `https://kr.object.ncloudstorage.com/palettepets/member/Profile/${article.memberImg}`
                             : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`} alt="User" className={BoardViewStyle.postUserImage} onClick={() => openModal(article.articleId)} />
                             <div>
@@ -127,7 +131,7 @@ const BoardView = () => {
                                 : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}
                                 alt="User" />
                                 <div className={BoardViewStyle.ModalContainer}>
-                                    <button className={BoardViewStyle.chackBt}>팔로우</button>
+                                    {/* <button className={BoardViewStyle.chackBt}>팔로우</button> */}
                                     <button className={BoardViewStyle.chackBt} onClick={requestChat(article.memberId)}>
                                         <span style={{ color: '#ffffff' }}>1:1 대화</span>
                                     </button>

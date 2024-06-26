@@ -121,7 +121,7 @@ const MainCarrotView = () => {
                                 <img src={carrot.carrotImage ? `https://kr.object.ncloudstorage.com/palettepets/carrot/img/${carrot.carrotImage}`
                                 : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}
                                 alt="User" 
-                                style={{width: '100%', height: '40%'}}/>
+                                style={{width: '100%', height: '30%', objectFit: 'none'}}/>
                                 {/* <div className={BoardViewStyle.ModalContainer}>
                                     <button className={BoardViewStyle.chackBt}>팔로우</button>
                                     <button className={BoardViewStyle.chackBt} onClick={requestChat(carrot.memberId)}>

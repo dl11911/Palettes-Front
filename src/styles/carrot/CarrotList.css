@@ -125,9 +125,9 @@
 }
 
 .search_input {
-  width: 250px;
+  width: 200px;
   padding: 10px;
-  margin-left: 70px;
+  margin-left: 20px;
   border-radius: 0.6rem;
   border: none;
   outline: none;

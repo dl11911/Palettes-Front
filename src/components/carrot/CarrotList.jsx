@@ -102,7 +102,7 @@ const CarrotList = () => {
     return (
         <div className="product-list-container">
             <div id="header_content">
-              <img src="https://i.pinimg.com/564x/c5/5c/76/c55c762ce418abefd071aa7e81c5a213.jpg" alt='dd' style={{height:'80px', width:'90px'}} onClick={() => navigate(`/carrot/myCarrot`)}/>
+              {/* <img src="" alt='dd' style={{height:'80px', width:'90px'}} onClick={() => navigate(`/carrot/myCarrot`)}/> */}
             <form onSubmit={handleSearch}>
                     <input class="search_input" 
                         type="text" 

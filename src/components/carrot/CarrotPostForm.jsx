@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/carrot/CarrotForm.css';
 import '../../styles/carrot/CarrotError.css'
 import carrotService from '../../service/carrotService';
-import useForm from '../../hooks/useForm';
-import { Box, Button, Grid, TextField, Typography, IconButton  } from '@mui/material';
-import { formatDate } from 'date-fns';
+import { Box, Button, Grid, TextField, Typography, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import ImageUpdate from './ImageUpdate';
@@ -14,8 +13,6 @@ import img from '../../image/icon-image.png'
 
 const CarrotPostForm = () => {
   const navigate = useNavigate();
-
-  const [reset] = useForm(form);
 
   const [carrotTitle, setCarrotTitle] = useState('');
   const [carrotContent, setCarrotContent] = useState('');
@@ -27,6 +24,7 @@ const CarrotPostForm = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
+
     setFiles(files);
 
     const newPreviews = files.map(file => {
@@ -34,14 +32,21 @@ const CarrotPostForm = () => {
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             setPreviews(prev => [...prev, reader.result]);
+            console.log("filter =" + previews)
         };
     });
 };
 
+    const handleImageDelete = (index) => {
+      const newPreviews = [...previews];
+      newPreviews.splice(index, 1);
+      setPreviews(newPreviews);
+    };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("핸들 서밋")
+
     const validationErrors = {};
         if (!carrotTitle) validationErrors.carrotTitle = '제목을 적어주세요.';
         if (!carrotContent) validationErrors.carrotContent = '설명을 적어주세요.';
@@ -169,10 +174,75 @@ const CarrotPostForm = () => {
                     </div>
                 )}        
         </div>
+        <div>
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 2,
+            }}
+          >
+            <Button
+              variant="contained"
+              component="label"
+              sx={{
+                backgroundColor: 'white',
+                background: 'transparent',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '150px',
+                height: '150px',
+              }}
+            >
+              <img src={img} style={{ width: '100px', height: '100px' }} />
+              <input
+                type="file"
+                hidden
+                multiple
+                onChange={handleImageChange}
+              />
+            </Button>
 
-        <div className="form-group">
-          <label>이미지</label>
-          <ImageUpdate imgList={imgList} setImgList={setImgList} value={imgList}/>
+            {previews.length > 0 && (
+              previews.map((preview, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    position: 'relative',
+                    width: '150px',
+                    height: '150px',
+                  }}
+                >
+                  <img
+                    src={preview}
+                    alt={`Preview ${index}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => handleImageDelete(index)}
+                    sx={{
+                      position: 'absolute',
+                      top: 4,
+                      right: 4,
+                      color: 'white',
+                      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Box>
+              ))
+            )}
+          </Box>
         </div>
         <button type="submit" className="submit-button" >
           작성 완료

@@ -18,13 +18,14 @@ const CarrotUpdateForm = () => {
   const {id} = useParams();
   const [carrot, setCarrot] = useState([]);
   const [carrotTitle, setCarrotTitle] = useState('');
-  const [carrotContent, setCarrotContent] = useState('');
+  const [carrotContent, setCarrotContent] = useState(null);
   const [carrotTag, setCarrotTag] = useState('');
   const [carrotPrice, setCarrotPrice] = useState('');
   const [imgFiles, setImgFiles] = useState([]);
   const [previewList, setPreviewList] = useState([]);
 
   useEffect(() => {
+    setCarrotContent(null);
     fetchCarrot(id);
   }, [id]);
 
@@ -33,6 +34,9 @@ const CarrotUpdateForm = () => {
     //기존 정보 가져오기
     carrotService.getCarrotDetails(id).then((res) => {
       setCarrot(res.data);
+      setCarrotTitle(res.data.carrotTitle);
+      setCarrotContent(res.data.carrotContent);
+      setCarrotPrice(res.data.carrotPrice);
 
       const imgArray = res.data.imgList && res.data.imgList.map(image => `https://kr.object.ncloudstorage.com/palettepets/carrot/img/${image}`)
       console.log("real = " + imgArray);
@@ -78,18 +82,18 @@ const CarrotUpdateForm = () => {
     formData.append('carrotPrice', carrot.carrotPrice);
   }
   // 이미지 파일 추가
-  Object.values(imgFiles).map((item, index) => {
-    formData.append('files', item);
-});
+//   Object.values(imgFiles).map((item, index) => {
+//     formData.append('files', item);
+// });
 
     try {
       const response = await carrotService.putCarrotUpdate(formData, id);
       console.log("stauts" + response.status);
       if (response.status === 200) {
+        alert('글 수정에 실패했습니다. 다시 시도해주세요.');
+      } else {
           alert('글 수정에 성공했습니다.')
           navigate(-1); // 이전 페이지로 이동
-      } else {
-          alert('글 수정에 실패했습니다. 다시 시도해주세요.');
       }
       console.log("폼데이터2@= ", Object.fromEntries(formData.entries()));
     } catch (error) {
@@ -113,7 +117,7 @@ const CarrotUpdateForm = () => {
             id="carrotTitle"
             value={carrotTitle}
             onChange={(event) => setCarrotTitle(event.target.value)}            
-            placeholder={carrot.carrotTitle}
+            // placeholder={carrot.carrotTitle}
             style={{backgroundColor : 'white', color:'black'}}
           />
         </div>
@@ -123,7 +127,7 @@ const CarrotUpdateForm = () => {
             id="carrotContent"
             value={carrotContent}
             onChange={(event) => setCarrotContent(event.target.value)}
-            placeholder={carrot.carrotContent}
+            // placeholder={carrot.carrotContent}
             style={{backgroundColor : 'white', color:'black'}}
           ></textarea>
         </div>
@@ -147,7 +151,6 @@ const CarrotUpdateForm = () => {
             id="carrot_price"
             value={carrotPrice}
             onChange={(event) => setCarrotPrice(event.target.value)}
-            placeholder={carrot.carrotPrice}
             style={{backgroundColor : 'white', color:'black'}}
           />
         </div>

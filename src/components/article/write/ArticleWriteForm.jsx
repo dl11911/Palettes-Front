@@ -86,6 +86,7 @@ const ArticleWriteForm = () => {
                 Object.values(imgFiles).map((item, index) => {
                     formData.append('files', item);
                 });
+                alert(JSON.stringify(form));
                 const blob = new Blob([JSON.stringify(form)], { type: "application/json" });
                 formData.append('dto', blob);
 

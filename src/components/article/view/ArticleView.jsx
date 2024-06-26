@@ -216,11 +216,11 @@ const ArticleView = () => {
           images && images.map((item, index) => <CardMedia
             key={index}
             component="img"
-
-            height="250px"
+            width="100%"
+            height="100%"
             image={`https://kr.object.ncloudstorage.com/palettepets/article/img/${item.imgUrl}`}
             alt={index}
-            sx={{ width: '250px', margin: '20px auto', border: '1px solid black', borderRadius: '20px', padding: '20px' }}
+            sx={{ width: '50%' , margin: '10px auto', border: '1px solid rgba(0,0,0,0.3)', borderRadius: '20px', padding: '2px' }}
           />)
         }
         <CardContent style={{textAlign:'left', marginLeft:'20px'}}>

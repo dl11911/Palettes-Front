@@ -1,0 +1,22 @@
+/* setting.css */
+.my-page-list-container {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    justify-content: flex-start;
+  }
+
+  .my-page-list-item {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: 'column';
+    align-items: 'flex-start';
+    margin-bottom: 2;
+  }
+
+  .my-page-list-link {
+    display: block;
+    text-decoration: none;
+    color: #333;
+  }

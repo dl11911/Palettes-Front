@@ -5,13 +5,15 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { useNavigate } from 'react-router-dom';
 import { myPageProfile, myPageFeed, follow, unfollow } from '../../service/memberApi';
-import MyPagePetImgList from "../pet/MyPagePetImgList.jsx";
+import {petImgListInMyPageRequest} from "../../service/petApi.jsx";
 
 
 const MyPageComp = ({ nickname }) => {
     const [user, setUser] = useState({ nickname: '', img: null, following: 0, followers: 0, feeds: 0, memberId: '', followTF: false});
     const [feeds, setFeeds] = useState([]);
     const navigate = useNavigate();
+    // 반려동물
+    const [pets, setPets] = useState([]);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -48,8 +50,18 @@ const MyPageComp = ({ nickname }) => {
             }
         };
 
+        const fetchPetData = async () => {
+            try {
+                const data = await petImgListInMyPageRequest();
+                setPets(data);
+            } catch (error) {
+                console.error('반려동물 정보를 불러오는 중 오류 발생:', error);
+            }
+        }
+
         fetchProfileData();
         fetchFeedData();
+        fetchPetData();
     }, [nickname]);
 
     const handleFollowingClick = () => {
@@ -67,6 +79,11 @@ const MyPageComp = ({ nickname }) => {
     const navigateToSettings = () => {
         navigate('/member/setting'); 
     };
+
+    // 반려동물 추가 페이지 이동 버튼
+    const petAddPageButton = () => {
+        navigate(`/pet/list`);
+    }
 
     const handleFloatingButtonClick = () => {
         navigate(`/member/feed`);
@@ -96,7 +113,7 @@ const MyPageComp = ({ nickname }) => {
 
     return (
         <Box sx={{ padding: 2 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 ,color: 'black'}}>
                 <IconButton onClick={navigateBack}>
                     <ChevronLeftIcon />
                 </IconButton>
@@ -105,21 +122,21 @@ const MyPageComp = ({ nickname }) => {
                 <MoreVertIcon />
                 </IconButton>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Avatar src={`https://kr.object.ncloudstorage.com/palettepets/member/Profile/${user.img}`} sx={{ width: 80, height: 80, mr: 2 }} />
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, justifyContent: 'center' }}>
+                <Avatar src={`https://kr.object.ncloudstorage.com/palettepets/member/Profile/${user.img}`} sx={{ width: 190, height: 190, mr: 2 }} />
+                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center',color: 'black', ml: 8 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: 4 }}>
                         <Typography>{user.feeds}</Typography>
                         <Typography>게시물</Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: 2 }}>
-                        <Link onClick={handleFollowingClick}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: 4 }}>
+                        <Link onClick={handleFollowingClick} sx={{ textDecoration: 'none', color: 'inherit' }}>
                             {user.following}
                             <Typography>팔로잉</Typography>
                         </Link>
                     </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: 2 }}>
-                        <Link onClick={handleFollowerClick}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: 4 }}>
+                        <Link onClick={handleFollowerClick} sx={{ textDecoration: 'none', color: 'inherit' }}>
                             {user.followers}
                             <Typography>팔로워</Typography>
                         </Link>
@@ -128,46 +145,131 @@ const MyPageComp = ({ nickname }) => {
                 </Box>
             </Box>
             
-            {nickname === user.memberId ? (
-                <>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2,marginLeft: 5,margin: 5 }}>
+  {nickname === user.memberId ? (
+    <>
+      <Button
+        onClick={profileImgButton}
+        sx={{
+          backgroundColor: '#e1e1e1',
+          color: 'black',
+          padding: '10px 20px',
+          fontSize: '16px',
+          minWidth: '200px',
+        }} // 연한 회색 배경, 글자 색상 검정, 버튼 크기 확대
+      >
+        프로필 이미지 변경
+      </Button>
+      <Button
+        variant="contained"
+        sx={{
+          backgroundColor: 'black',
+          color: 'white',
+          padding: '9px 100px',
+          fontSize: '16px',
+          minWidth: '200px',
+          '&:hover': {
+            backgroundColor: 'white',
+            color: 'black',
+          },
+        }} // 검정색 배경, 글자 색상 흰색, 버튼 크기 확대, 호버 스타일 추가
+        onClick={handleFloatingButtonClick}
+      >
+        피드 작성하기
+      </Button>
+    </>
+  ) : (
+    <>
+      {user.followTF ? (
+        <Button
+          variant="contained"
+          onClick={followButtonClick}
+          sx={{
+            backgroundColor: 'black',
+            color: 'white',
+            padding: '9px 100px',
+            fontSize: '16px',
+            minWidth: '200px',
+            '&:hover': {
+              backgroundColor: 'white',
+              color: 'black',
+            },
+          }} // 검정색 배경, 글자 색상 흰색, 버튼 크기 확대, 호버 스타일 추가
+        >
+          팔로우
+        </Button>
+      ) : (
+        <Button
+          variant="contained"
+          onClick={unfollowButtonClick}
+          sx={{
+            backgroundColor: '#e1e1e1',
+            color: 'black',
+            padding: '9px 100px',
+            fontSize: '16px',
+            minWidth: '200px',
+            '&:hover': {
+              backgroundColor: 'black',
+              color: 'white',
+            },
+          }} // 흰색 배경, 글자 색상 검정, 버튼 크기 확대
+        >
+          언팔로우
+        </Button>
+      )}
+    </>
+  )}
+</Box>
+
+            <div
+            style={{
+                textAlign: 'left', // 글자 왼쪽 정렬
+                fontSize: '12px', // 글자 크기 작게 설정
+                color: 'gray'
+            }}
+            > 반려동물 </div>
+            {/* 이곳에 가로 슬라이드를 만들어 */}
+            <Box sx={{ overflowX: 'auto', whiteSpace: 'nowrap', mt: 2 }}>
+                {pets.map((pet, index) => (
+                    <Box
+                        key={index}
+                        component="img"
+                        src={`https://kr.object.ncloudstorage.com/palettepets/pet/img/${pet.imgUrl}`}
+                        alt={`pet-${index}`}
+                        sx={{ width: 150, height: 150, objectFit: 'cover', display: 'inline-block', mr: 1 }}
+                        onClick={() => navigate(`/pet/details/${pet.petId}`)}
+                    />
+                ))}
                 <Button
-                    onClick={profileImgButton}
-                >
-                    프로필 이미지 변경</Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleFloatingButtonClick}
-                >
-                  피드 작성하기
-                </Button>
-              </>
-            ) : (
-                    <>
-                {user.followTF ? (
-                    <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={followButtonClick}
-                    >
-                    팔로우
-                    </Button>
-                ) : (
-                    <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={unfollowButtonClick}
-                    >
-                    언팔로우
-                    </Button>
-                )}
-                </>
-            )}
-            <MyPagePetImgList />
+                    onClick={petAddPageButton}
+                    sx={{
+                        width: 150,
+                        height: 150,
+                        borderRadius: '50%', // 원형 버튼
+                        display: 'inline-block',
+                        mr: 1,
+                        verticalAlign: 'top',
+                        backgroundColor: 'white', // 버튼 배경색을 검정색으로 설정
+                        fontSize: '60px', // 텍스트 크기 설정
+                        color: 'black',
+                        '&:hover': {
+                            backgroundColor: 'white', // 호버 시 배경색 변경
+                            color: 'black' // 호버 시 텍스트 색상 변경
+                        }
+                    }}
+                >+</Button>
+            </Box>
+            <div
+            style={{
+                textAlign: 'left', // 글자 왼쪽 정렬
+                fontSize: '12px', // 글자 크기 작게 설정
+                color: 'gray'
+            }}
+            > 피드</div>
             {feeds.length === 0 ? (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh', border: '1px solid #ccc', borderRadius: 2, mt: 2 }}>
-                    <Typography variant="body1" align="center">
-                        피드가 존재하지 않습니다. 피드 작성하기를 눌러 만들어보세요.
+                    <Typography variant="body1" align="center" sx={{color: 'black'}}>
+                        피드가 존재하지 않습니다.
                     </Typography>
                 </Box>
             ) : (

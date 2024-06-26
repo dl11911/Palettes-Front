@@ -38,7 +38,7 @@ class carrotService {
         console.log("폼데이터 = ", Object.fromEntries(formData.entries()));
         return jwtAxios.post(`${CARROT_API_BASE_URL}/update/${id}`, formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json'
             }
         }
         )

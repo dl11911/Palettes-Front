@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { putOther } from '../../service/memberApi'; // putOther 함수의 경로를 맞춰주세요
+import { Box, Typography, Button, Grid, IconButton } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const SettingOtherComp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     birth: '',
     gender: ''
@@ -13,6 +17,10 @@ const SettingOtherComp = () => {
       ...formData,
       [name]: value
     });
+  };
+
+  const navigateBack = () => {
+    navigate('/member/setting');
   };
 
   const handleSubmit = async (e) => {
@@ -29,59 +37,74 @@ const SettingOtherComp = () => {
 
   return (
     <div>
-      <h2>성별과 생일 입력</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="gender">성별:</label>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <label>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <IconButton onClick={navigateBack}>
+          <ChevronLeftIcon />
+        </IconButton>
+        <Typography variant="h6"></Typography>
+        <IconButton ><Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>저장</Button></IconButton>
+      </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '400px' }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <Typography variant="body1" component="label" htmlFor="gender">성별</Typography>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="M"
+                    checked={formData.gender === 'M'}
+                    onChange={handleChange}
+                    required
+                  />
+                  남성
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="F"
+                    checked={formData.gender === 'F'}
+                    onChange={handleChange}
+                    required
+                  />
+                  여성
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="O"
+                    checked={formData.gender === 'O'}
+                    onChange={handleChange}
+                    required
+                  />
+                  기타
+                </label>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Typography variant="body1" component="label" htmlFor="birth">생일</Typography>
+            </Grid>
+            <Grid item xs={12} sm={8}>
               <input
-                type="radio"
-                name="gender"
-                value="M"
-                checked={formData.gender === 'M'}
+                type="date"
+                name="birth"
+                id="birth"
+                value={formData.birth}
                 onChange={handleChange}
                 required
+                style={{ width: '100%' }}
               />
-              남성
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="gender"
-                value="F"
-                checked={formData.gender === 'F'}
-                onChange={handleChange}
-                required
-              />
-              여성
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="gender"
-                value="O"
-                checked={formData.gender === 'O'}
-                onChange={handleChange}
-                required
-              />
-              기타
-            </label>
-          </div>
-        </div>
-        <div>
-          <label htmlFor="birth">생일:</label>
-          <input
-            type="date"
-            name="birth"
-            id="birth"
-            value={formData.birth}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">저장</button>
-      </form>
+            </Grid>
+          </Grid>
+          
+        </form>
+      </Box>
     </div>
   );
 };

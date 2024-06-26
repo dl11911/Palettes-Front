@@ -112,7 +112,7 @@ const root = createBrowserRouter([
     },
     {
         path: "/member",
-        element: <Suspense fallback={<Loading/>}><RootMyPage/></Suspense>,
+        element: <Suspense fallback={<Loading/>}><IsLogin Component={<RootMyPage/>}/></Suspense>,
         children: myPageRouter()
     },
     {

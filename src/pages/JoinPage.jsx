@@ -6,12 +6,9 @@ import JoinFormComp from '../components/joinPage/JoinFormComp.jsx';
 const JoinPage = () => {
     return (
             <>
-                <br/>
-                <br/>
-                <br/>
-                <HomeDefaultLayout>
+                
+                
                     <JoinFormComp/>
-                </HomeDefaultLayout>
                 <br/>
                 <br/>
                 <br/>

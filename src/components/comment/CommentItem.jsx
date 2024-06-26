@@ -85,7 +85,7 @@ export default function CommentItem({ item, articleId, setIsArticleSubmitted, is
                     sx={{ textAlign: 'left' }}
                 />
                 <CardContent sx={{ textAlign: 'left' }}>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" marginLeft={2}>
                         {content}
                     </Typography>
                 </CardContent>

@@ -6,6 +6,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 const FeedComp = () => {
     const [images, setImages] = useState([]);
@@ -66,7 +67,7 @@ const FeedComp = () => {
             const response = await PostFeed(dto, images);
             console.log('피드 폼데이터 Response: 디티오', dto);
             console.log('피드 폼데이터 Response: 이미지', images);
-            // 성공적으로 업로드한 후 할 작업
+
             navigate(-1);
         } catch (error) {
             console.error('Error uploading the feed:', error);
@@ -81,62 +82,77 @@ const FeedComp = () => {
         slidesToScroll: 1,
     };
 
-    return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ p: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <IconButton onClick={navigateBack}>
-                    <ChevronLeftIcon />
-                </IconButton>
-                <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center' }}>새로운 피드 올리기</Typography>
-                <Box sx={{ width: 48 }} /> {/* 아이콘 버튼의 너비와 동일한 크기의 빈 박스 */}
-            </Box>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Button variant="contained" component="label">
-                        이미지 업로드
-                        <input
-                            type="file"
-                            hidden
-                            multiple
-                            ref={fileInputRef}
-                            onChange={handleImageChange}
-                        />
-                    </Button>
-                </Grid>
-                {previews.length > 0 && (
-                    <Grid item xs={12}>
-                        <Slider {...settings}>
-                            {previews.map((preview, index) => (
-                                <Box
-                                    key={index}
-                                    component="img"
-                                    src={preview}
-                                    alt={`Image Preview ${index}`}
-                                    sx={{ width: '100%', height: 'auto', objectFit: 'cover', mb: 2 }}
-                                />
-                            ))}
-                        </Slider>
-                    </Grid>
-                )}
-                <Grid item xs={12}>
-                    <TextField
-                        label="내용"
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        fullWidth
-                        value={text}
-                        onChange={handleTextChange}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Button type="submit" variant="contained" color="primary">
-                        제출
-                    </Button>
-                </Grid>
-            </Grid>
-        </Box>
-    );
+
+
+return (
+  <Box component="form" onSubmit={handleSubmit} sx={{ p: 2 }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+      <IconButton onClick={navigateBack}>
+        <ChevronLeftIcon />
+      </IconButton>
+      <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center', color: 'black', }}>새로운 피드 올리기</Typography>
+      <IconButton component="label">
+        <PhotoCamera />
+        <input
+          type="file"
+          hidden
+          multiple
+          ref={fileInputRef}
+          onChange={handleImageChange}
+        />
+      </IconButton>
+    </Box>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        {/* 여기에 추가 내용이 있을 수 있습니다 */}
+      </Grid>
+      {previews.length > 0 && (
+        <Grid item xs={12}>
+          <Slider {...settings}>
+            {previews.map((preview, index) => (
+              <Box
+                key={index}
+                component="img"
+                src={preview}
+                alt={`Image Preview ${index}`}
+                sx={{ width: '100%', height: '600px', objectFit: 'cover', mb: 2,mx: 'auto' }}
+              />
+            ))}
+          </Slider>
+        </Grid>
+      )}
+      <Grid item xs={12}>
+        <TextField
+          label="내용"
+          multiline
+          rows={1}
+          variant="outlined"
+          fullWidth
+          value={text}
+          onChange={handleTextChange}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{
+            backgroundColor: 'black',
+            color: 'white',
+            padding: '9px 100px',
+            fontSize: '16px',
+            '&:hover': {
+              backgroundColor: 'black'
+            }
+          }}
+        >
+          제출
+        </Button>
+      </Grid>
+    </Grid>
+  </Box>
+);
+
 };
 
 export default FeedComp;

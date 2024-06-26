@@ -5,6 +5,7 @@ import { Box, Typography, IconButton, CircularProgress, Grid } from '@mui/materi
 import DeleteIcon from '@mui/icons-material/Delete';
 import { GetFeed, DeleteFeed } from '../../service/memberApi'; // API 함수들을 가져옵니다.
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import '../../styles/loginPage/mypage.css';
 
 const FeedDetailComp = ({ onDeleteSuccess }) => {
     const { feedId } = useParams();
@@ -60,6 +61,24 @@ const FeedDetailComp = ({ onDeleteSuccess }) => {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
+        arrows: false, // 화살표 없애기
+        appendDots: dots => (
+            <div>
+                <ul style={{ margin: 0 }}> {dots} </ul>
+            </div>
+        ),
+        customPaging: i => (
+            <div
+                style={{
+                    width: '30px',
+                    height: '5px',
+                    backgroundColor: 'gray',
+                    borderRadius: '5px',
+                    display: 'inline-block',
+                    margin: '0 3px'
+                }}
+            />
+        )
     };
     
 
@@ -77,7 +96,7 @@ const FeedDetailComp = ({ onDeleteSuccess }) => {
                 <DeleteIcon />
             </IconButton>
             </Box>
-            
+            <Typography variant="body1"  sx={{color: 'black'}}>{feed.text}</Typography>
             {feed.img && feed.img.length > 0 && (
                 <Slider {...settings}>
                     {feed.img.map((image, index) => (
@@ -92,7 +111,7 @@ const FeedDetailComp = ({ onDeleteSuccess }) => {
                     ))}
                 </Slider>
             )}
-            <Typography variant="body1">{feed.text}</Typography>
+            
         </Box>
     );
 };

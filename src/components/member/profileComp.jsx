@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Box, Button, Avatar } from '@mui/material';
-import 'react-toastify/dist/ReactToastify.css';
+import { Box, Button, Avatar, IconButton,Typography } from '@mui/material';
 import { profile } from '../../service/memberApi'; // profile API 가져오기
 import { useNavigate } from 'react-router-dom';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 const ImageUploadComp = () => {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -15,6 +15,9 @@ const ImageUploadComp = () => {
             fileInputRef.current.click();
         }
     }, []);
+    const navigateBack = () => {
+        navigate(-1);
+    };
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -45,6 +48,20 @@ const ImageUploadComp = () => {
 
     return (
         <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <IconButton onClick={navigateBack}>
+                    <ChevronLeftIcon />
+                </IconButton>
+                <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center', color: 'black', }}>프로필 이미지 변경</Typography>
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    onClick={handleSaveClick} 
+                    style={{ marginTop: '20px' , backgroundColor: 'black',}}
+                >
+                    저장하기
+                </Button>
+            </Box>
             <input
                 accept="image/*"
                 type="file"
@@ -53,20 +70,13 @@ const ImageUploadComp = () => {
                 id="upload-button"
                 ref={fileInputRef}
             />
-            <Button 
-                variant="contained" 
-                color="primary" 
-                onClick={handleSaveClick} 
-                style={{ marginTop: '20px' }}
-            >
-                저장하기
-            </Button>
+            
             {preview && (
                 <Box mt={2}>
                     <Avatar
                         src={preview}
                         alt="미리보기"
-                        sx={{ width: 200, height: 200 }}
+                        sx={{ width: '100%', height: 600 }}
                     />
                 </Box>
             )}

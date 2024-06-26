@@ -46,24 +46,24 @@ const FollowerComp = ({ nickname }) => {
   }
 
   return (
-    <div style={{ padding: '20px', position: 'relative' }}>
+    <div style={{ padding: '20px', position: 'relative', display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <IconButton onClick={navigateBack}>
           <ChevronLeftIcon />
         </IconButton>
-        <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center' }}>{nickname}</Typography>
+        <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'center', color: 'black' }}>{nickname}</Typography>
         <Box sx={{ width: 48 }} /> {/* 아이콘 버튼의 너비와 동일한 크기의 빈 박스 */}
       </Box>
-
+  
       <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-        <Button variant="contained" sx={{ marginRight: 1 }}>팔로워</Button>
-        <Button variant="contained" onClick={followingBTN}>팔로잉</Button>
+        <Button variant="text" sx={{ marginRight: 1, color: 'black', padding: '9px 100px', fontSize: '16px',borderBottom: '2px solid black' }}>팔로워</Button>
+        <Button variant="text" onClick={followingBTN} sx={{ color: 'black', padding: '9px 100px', fontSize: '16px' }}>팔로잉</Button>
       </Box>
-
+  
       {followers.length === 0 ? (
-        <p style={{ textAlign: 'center' }}>{nickname}님을 팔로워 하고있는 친구가 없습니다.</p>
+        <p style={{ textAlign: 'center', color: 'black', marginTop: 'auto', marginBottom: 'auto' }}>{nickname}님을 팔로워 하고있는 친구가 없습니다.</p>
       ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
+        <ul style={{ listStyle: 'none', padding: 3 }}>
           {followers.map(follower => (
             <li
               key={follower.id}
@@ -71,9 +71,9 @@ const FollowerComp = ({ nickname }) => {
                 display: 'flex',
                 alignItems: 'center',
                 margin: '10px 0',
-                border: '1px solid gray', // 회색 테두리 추가
+                borderBottom: '1px solid #e1e1e1',
                 padding: '10px', // 패딩 추가
-                borderRadius: '10px' // 둥근 테두리 추가
+                borderRadius: '5px' // 둥근 테두리 추가
               }}
               onClick={() => navigate(`/member/${follower.nickname}`)}
             >
@@ -81,13 +81,14 @@ const FollowerComp = ({ nickname }) => {
                 src={`https://kr.object.ncloudstorage.com/palettepets/member/Profile/${follower.profile}`}
                 style={{ borderRadius: '50%', marginRight: '10px', width: '50px', height: '50px' }} // 이미지 크기 설정
               />
-              <span>{follower.nickname}</span>
+              <span style={{color: 'black'}}>{follower.nickname}</span>
             </li>
           ))}
         </ul>
       )}
     </div>
   );
+  
 };
 
 export default FollowerComp;
