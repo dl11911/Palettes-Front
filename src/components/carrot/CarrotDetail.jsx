@@ -174,7 +174,7 @@ const PrevArrow = ({ onClick }) => {
               {carrot.carrotContent}
             </p>
           </div>
-          <div style={{ fontSize: "13px" ,color: "#998e8e"}}>채팅 ? • 관심 {carrot.carrotLike} • 조회 {carrot.carrotView} </div>
+          <div style={{ fontSize: "13px" ,color: "#998e8e"}}> 관심 {carrot.carrotLike} • 조회 {carrot.carrotView} </div>
           <br/>
           <div className="price-container">
             <div className="price">

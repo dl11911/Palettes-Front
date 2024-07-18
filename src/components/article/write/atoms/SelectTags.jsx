@@ -46,7 +46,6 @@ export default function SelectTags({ search, setSearch }) {
 
   const handleSearchParam = () => {
     setSearch(document.querySelector(".where").value);
-    console.log("search = " + search);
   }
 
   const handleChange = (event) => {
@@ -57,21 +56,17 @@ export default function SelectTags({ search, setSearch }) {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
-    console.log("personName = " + personName);
-    console.log("event = "+ event);
   };
 
   function tagSearchSubmit(e) {
     e.preventDefault();
     <ArticleService value={personName}/>
-    console.log(personName);
   }
 
   const textSearchSubmit =(e) =>{
     
   }
   const onDelete = (e) =>{
-    console.log(e.value.label)
   }
   return (
     <div>

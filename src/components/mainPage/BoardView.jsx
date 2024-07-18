@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Modal } from '@mui/material';
 import Swal from 'sweetalert2'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Link } from 'react-router-dom';
-
+import '../../styles/mainPage/mainPage.css';
 
 import BoardViewStyle from '../../styles/mainPage/boardView.module.css';
 import { useSelector } from 'react-redux';
@@ -45,7 +45,6 @@ const BoardView = () => {
     }
 
     const requestChat = (e) =>() => {
-        alert("글쓴이 아이디 : " + e)
         console.log("click")
         if (token === '') {
             console.log("token is on")
@@ -101,10 +100,10 @@ const BoardView = () => {
             {articles && articles.map((article) => (
                 <div key={article.articleId} className={BoardViewStyle.postsList}>
                     <div className={BoardViewStyle.post}>
-                        <div className={BoardViewStyle.postHeader} onClick={()=>connectArticle(article.articleId)}>
+                        <div className={BoardViewStyle.postHeader}>
                             <img src={article.memberImg ? `https://kr.object.ncloudstorage.com/palettepets/member/Profile/${article.memberImg}`
                             : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`} alt="User" className={BoardViewStyle.postUserImage} onClick={() => openModal(article.articleId)} />
-                            <div>
+                            <div onClick={()=>connectArticle(article.articleId)}>
                                 <p className={BoardViewStyle.postUserName}>{article.memberNickname}님</p>
                                 <p className={BoardViewStyle.postContent}>{article.title}</p>
                                 <p className={BoardViewStyle.postTime}>                             

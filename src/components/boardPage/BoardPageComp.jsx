@@ -40,7 +40,6 @@ function BoardPageComp() {
 
 
   useEffect(() => {
-    console.log("board page search changed = " + search);
     setWhere(search);
     setPage(1); // search 값이 들어오면 페이지를 1로 초기화(Page = 1일 때만 조회가 되기 때문)
     setArticles([]); // articles를 초기화
@@ -63,7 +62,6 @@ function BoardPageComp() {
     const pageToFetch = reset ? 1 : page;
 
     ArticleService.getArticleList(pageToFetch, sort, dir, searchString, boardName).then((res) => {
-      console.log("where =@!@!@!@!@" + search);
       // console.log(res);
 
       const resultString = res.data.map(obj => obj.articleTags).join(',')
@@ -82,7 +80,6 @@ function BoardPageComp() {
   useEffect(() => {
     // inView가 true 일때만 실행한다.
     if (inView && page > 1) {
-      console.log(inView)
       fetchArticles();
     }
   }, [inView]);
@@ -100,7 +97,6 @@ function BoardPageComp() {
   const addSearch = (tag) => {
 
     if (!search.includes(tag)) {
-      console.log('aaaaaa')
       setSearch([...search, tag])
     }
 

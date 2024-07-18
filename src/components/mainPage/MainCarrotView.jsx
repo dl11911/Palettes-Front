@@ -46,7 +46,6 @@ const MainCarrotView = () => {
     }
 
     const requestChat = (e) =>() => {
-        alert("글쓴이 아이디 : " + e)
         console.log("click")
         if (token === '') {
             console.log("token is on")
@@ -89,6 +88,10 @@ const MainCarrotView = () => {
     };
 
 
+    const connectCarrot = (carrotId) => {
+        window.location.href = `/carrot/details/${carrotId}`;
+    }
+
 
     return (
         <>
@@ -99,7 +102,7 @@ const MainCarrotView = () => {
                             <img src={carrot.carrotImage ? `https://kr.object.ncloudstorage.com/palettepets/carrot/img/${carrot.carrotImage}`
                                 : `https://kr.object.ncloudstorage.com/palettepets/member/Profile/icon-image.png`}
                             alt="User" className={BoardViewStyle.postUserImage} onClick={() => openModal(carrot.carrotId)} />
-                            <div>
+                            <div onClick={()=>connectCarrot(carrot.carrotId)}>
                                 {/* <p className={BoardViewStyle.postUserName}>{carrot.memberNickname}님</p> */}
                                 <p className={BoardViewStyle.postContent}>{carrot.carrotTitle}</p>
                                 <p className={BoardViewStyle.postTime}>

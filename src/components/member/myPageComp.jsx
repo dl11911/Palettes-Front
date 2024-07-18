@@ -6,6 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import { myPageProfile, myPageFeed, follow, unfollow } from '../../service/memberApi';
 import {petImgListInMyPageRequest} from "../../service/petApi.jsx";
+import { parseJSON } from 'date-fns';
 
 
 const MyPageComp = ({ nickname }) => {
@@ -51,8 +52,10 @@ const MyPageComp = ({ nickname }) => {
         };
 
         const fetchPetData = async () => {
+            console.log("user ::  "+ JSON.stringify(user))
+            console.log("user id ::  "+nickname)
             try {
-                const data = await petImgListInMyPageRequest();
+                const data = await petImgListInMyPageRequest(nickname);
                 setPets(data);
             } catch (error) {
                 console.error('반려동물 정보를 불러오는 중 오류 발생:', error);

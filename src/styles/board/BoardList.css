@@ -94,6 +94,7 @@ hr {
 
     border-radius: 8px; /* 둥근 모서리 추가 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 컨테이너에 그림자 추가 */
+   
 }
 
 /* 0604 페이지 버튼 페이징 */
@@ -104,6 +105,7 @@ hr {
 
 .boardSelectBtn{
     margin: 0px 5px;
+    color:rgba(0, 0, 0, 0.1)
 }
 .selected{
     color:black

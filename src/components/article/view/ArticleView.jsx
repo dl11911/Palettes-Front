@@ -13,7 +13,7 @@ import ArticleReport from './ArticleReport';
 import { useSelector } from 'react-redux';
 import ReactQuill from 'react-quill';
 import useToast from '../../../hooks/useToast';
-
+import '../../../styles/article/articleView.css'
 
 //모달창 css
 const style = {
@@ -34,9 +34,11 @@ const ArticleView = () => {
   const [articleDto, setArticleDto] = useState({});
   const [commentDto, setCommentDto] = useState([]);
   const [isLike, setIsLike] = useState(false);
+  //자신의 글인지 확인
+  const [verify, setVerify] = useState(false);
   const toast = useToast();
   const { articleTags, content, countLoves, countReview, created_who, memberImage, title, images, createdAt } = articleDto
-  
+
   //댓글 등록시 리렌더링
   const [isArticleSubmitted, setIsArticleSubmitted] = useState(false);
 
@@ -81,13 +83,12 @@ const ArticleView = () => {
 
       const commentData = await getComment(articleId)
 
-      const isLikeArticle = await getIsLike(articleId)
 
-    
+
+
       setArticleDto(articleData);
       setCommentDto(commentData);
-      setIsLike(isLikeArticle);
-     
+
       const dateTime = new Date(
         articleData.createdAt
       );
@@ -112,6 +113,17 @@ const ArticleView = () => {
         )
       }
 
+      const result = await getIsLike(articleId)
+      
+      if (result !== null || result !== '') {
+
+        setIsLike(result.isLike);
+
+        if (result.memberNickname === articleData.created_who) {
+
+          setVerify(true);
+        }
+      }
     }
     fetchData();
 
@@ -147,7 +159,7 @@ const ArticleView = () => {
     setOpenReport(false);
   }
 
- 
+
 
   const handleBack = () => {
     navigate(-1,
@@ -172,7 +184,7 @@ const ArticleView = () => {
         </IconButton>
         <CardHeader
           avatar={
-            <Avatar alt={created_who} src={memberImage} />
+            <Avatar alt={created_who} src={`https://kr.object.ncloudstorage.com/palettepets/member/Profile/${memberImage}`} />
           }
           action={
             token === '' ? null :
@@ -186,7 +198,7 @@ const ArticleView = () => {
         />
 
         <CardContent >
-          <Typography variant="body2" color="text.secondary" fontSize="20pt" textAlign='left' sx={ {textAlign: 'center' }}>
+          <Typography variant="body2" color="text.secondary" fontSize="16pt" textAlign='left' sx={{ textAlign: 'center' }}>
             {title}
           </Typography>
         </CardContent>
@@ -207,7 +219,9 @@ const ArticleView = () => {
             modules={{ toolbar: false }}
             style={{
               height: 'auto', backgroundColor: 'white', display: 'inline-block',
-              minHeight: '300px', width: '96%', marginTop: '1%', marginLeft: '20px', whiteSpace: 'pre-line', textAlign: 'left'
+              width: '96%', marginTop: '1%', padding: '10px', marginBottom: '40px', whiteSpace: 'pre-wrap',
+              textAlign: 'left'
+
             }}
 
           />
@@ -220,10 +234,10 @@ const ArticleView = () => {
             height="100%"
             image={`https://kr.object.ncloudstorage.com/palettepets/article/img/${item.imgUrl}`}
             alt={index}
-            sx={{ width: '50%' , margin: '10px auto', border: '1px solid rgba(0,0,0,0.3)', borderRadius: '20px', padding: '2px' }}
+            sx={{ width: '50%', margin: '10px auto', border: '1px solid rgba(0,0,0,0.3)', borderRadius: '20px', padding: '2px' }}
           />)
         }
-        <CardContent style={{textAlign:'left', marginLeft:'20px'}}>
+        <CardContent style={{ textAlign: 'left', marginLeft: '20px' }}>
           {formattedString}
         </CardContent>
         <CardActions disableSpacing sx={{ marginLeft: '20px', marginBottom: '20px' }}>
@@ -246,11 +260,17 @@ const ArticleView = () => {
           }}
         >
           <MenuItem onClick={reportHandleOpen}>신고하기</MenuItem>
-          <MenuItem onClick={() => navigate(`/article/update/${articleId}`)}>수정하기</MenuItem>
-          <MenuItem onClick={modalHandleOpen}>삭제하기</MenuItem>
+
+          {
+            verify &&
+            <>
+              <MenuItem onClick={() => navigate(`/article/update/${articleId}`)}>수정하기</MenuItem>
+              <MenuItem onClick={modalHandleOpen}>삭제하기</MenuItem>
+            </>
+          }
 
         </Menu>
-      </Card>
+      </Card >
 
 
       <Card sx={{ maxWidth: 630, border: 'none', margin: '20px auto' }}>
@@ -292,7 +312,7 @@ const ArticleView = () => {
         </Box>
       </Modal>
 
-      <footer style={{marginBottom:'50px'}}>
+      <footer style={{ marginBottom: '50px' }}>
 
         <CommentResisterForm memberNickname={created_who} commentRef={0} articleId={articleId} parentId={0} setIsArticleSubmitted={setIsArticleSubmitted} isArticleSubmitted={isArticleSubmitted} />
 

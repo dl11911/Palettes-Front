@@ -72,7 +72,7 @@ export default function CommentItem({ item, articleId, setIsArticleSubmitted, is
             <Card sx={{ maxWidth: 620, margin: 'auto', borderBottom: '0.5px solid rgba(0,0,0, 0.12)', boxShadow: '0' }}>
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="memberImage" src={memberImage} />
+                        <Avatar aria-label="memberImage" src={`https://kr.object.ncloudstorage.com/palettepets/member/Profile/${memberImage}`} />
                     }
                     action={
                         <IconButton id="basic-button" aria-label="settings" onClick={handleClick} >

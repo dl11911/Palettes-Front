@@ -46,7 +46,6 @@ const MainHotSpotView = () => {
     }
 
     const requestChat = (e) =>() => {
-        alert("글쓴이 아이디 : " + e)
         console.log("click")
         if (token === '') {
             console.log("token is on")
